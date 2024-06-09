@@ -37,7 +37,7 @@ const useStyles = styled((theme) => ({
   },
 }));
 
-const Register = () => {
+const Register = ({ setUser }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const classes = useStyles(theme);
@@ -74,6 +74,7 @@ const Register = () => {
 
       if (data.data.token) {
         notifyService.showNotification("Registration successful", "success");
+        setUser(authService.getCurrentUser());
         navigate("/");
       } else {
         notifyService.showNotification(

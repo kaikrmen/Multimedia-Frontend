@@ -11,7 +11,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
-import contentService from "../services/allowAllService";
+import allowsService from "../services/allowAllService";
 import { API_URL } from "../services/apiService";
 
 const Home = () => {
@@ -24,21 +24,21 @@ const Home = () => {
   const [filteredThemes, setFilteredThemes] = useState([]);
 
   useEffect(() => {
-    contentService.getCategories().then((response) => {
+    allowsService.getCategories().then((response) => {
       const sortedCategories = response.data.sort(
         (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
       );
       setCategories(sortedCategories);
       setFilteredCategories(sortedCategories);
     });
-    contentService.getThemes().then((response) => {
+    allowsService.getThemes().then((response) => {
       const sortedThemes = response.data.sort(
         (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
       );
       setThemes(sortedThemes);
       setFilteredThemes(sortedThemes);
     });
-    contentService.getContents().then((response) => {
+    allowsService.getContents().then((response) => {
       const sortedContents = response.data.sort(
         (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
       );

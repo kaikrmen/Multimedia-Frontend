@@ -25,10 +25,10 @@ const getContents = () => {
   }
 };
 
-const contentService = {
+const allowsService = {
   getCategories,
   getThemes,
   getContents,
 };
 
-export default contentService;
+export default allowsService;

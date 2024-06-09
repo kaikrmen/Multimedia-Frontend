@@ -24,12 +24,16 @@ import {
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ToastContainer } from "react-toastify";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import authService from "./services/authService";
 import LogoutIcon from "@mui/icons-material/Logout";
+import CategoryTable from "./pages/Categories";
+import ProtectedRoute from "./guard/ProtectedRoute";
+import NotFound from "./components/NotFound";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -47,6 +51,7 @@ const App = () => {
     authService.logout();
     setUser(null);
     handleClose();
+    window.location.href = "/login";
   };
 
   const handleClick = (event) => {
@@ -68,7 +73,10 @@ const App = () => {
   };
 
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setDrawerOpen(open);
@@ -98,12 +106,6 @@ const App = () => {
                   </Typography>
                 }
               />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary={user.email} />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary={user.roles} />
             </ListItem>
             <ListItem button onClick={handleOpenDialog}>
               <LogoutIcon />
@@ -234,7 +236,7 @@ const App = () => {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                sx={{ mr: 2, display: { xs: 'block', md: 'none' } }}
+                sx={{ mr: 2, display: { xs: "block", md: "none" } }}
                 onClick={toggleDrawer(true)}
               >
                 <MenuIcon />
@@ -251,7 +253,12 @@ const App = () => {
                   Multimedia Library
                 </Link>
               </Typography>
-              <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                  alignItems: "center",
+                }}
+              >
                 <Link
                   to="/"
                   style={{
@@ -264,6 +271,16 @@ const App = () => {
                 </Link>
                 {user ? (
                   <>
+                    <Link
+                      to="/categories"
+                      style={{
+                        margin: "0 10px",
+                        color: darkMode ? "#fff" : "#000",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Categories
+                    </Link>
                     <Typography
                       variant="h6"
                       component="div"
@@ -346,11 +363,7 @@ const App = () => {
               </Box>
             </Toolbar>
           </AppBar>
-          <Drawer
-            anchor="left"
-            open={drawerOpen}
-            onClose={toggleDrawer(false)}
-          >
+          <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
             {drawerList}
           </Drawer>
         </Box>
@@ -359,9 +372,19 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
             <Route path="/register" element={<Register setUser={setUser} />} />
+            <Route
+              path="/categories"
+              element={
+                <ProtectedRoute>
+                  <CategoryTable />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>
         <ToastContainer />
+        <Footer /> {/* Agrega el componente Footer */}
       </Router>
     </ThemeProvider>
   );
