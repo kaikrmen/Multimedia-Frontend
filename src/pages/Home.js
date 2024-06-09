@@ -58,7 +58,7 @@ const Home = () => {
 
   const handleSearch = (event, value) => {
     const lowercasedValue = value.toLowerCase();
-    
+
     const filtered = contents.filter(
       (content) =>
         content.title.toLowerCase().includes(lowercasedValue) ||
@@ -98,7 +98,13 @@ const Home = () => {
   let embedUrl;
 
   return (
-    <Container>
+    <Container
+      sx={{ mt: 4 }}
+      style={{
+        minHeight: "100vh",
+        height: "100%"
+      }}
+    >
       <Typography variant="h2" gutterBottom>
         Multimedia Library
       </Typography>

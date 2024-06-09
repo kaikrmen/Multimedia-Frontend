@@ -27,7 +27,7 @@ import notifyService from "../services/notifyService";
 import authService from "../services/authService";
 import { API_URL } from "../services/apiService";
 
-const CategoryTable = () => {
+const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -182,7 +182,13 @@ const CategoryTable = () => {
   };
 
   return (
-    <Container>
+    <Container
+      sx={{ mt: 4 }}
+      style={{
+        minHeight: "100vh",
+        height: "100%",
+      }}
+    >
       <Typography variant="h4" gutterBottom>
         Category Management
       </Typography>
@@ -439,4 +445,4 @@ const modalStyle = {
   p: 4,
 };
 
-export default CategoryTable;
+export default Categories;

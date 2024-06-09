@@ -30,10 +30,11 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import authService from "./services/authService";
 import LogoutIcon from "@mui/icons-material/Logout";
-import CategoryTable from "./pages/Categories";
+import Categories from "./pages/Categories";
 import ProtectedRoute from "./guard/ProtectedRoute";
 import NotFound from "./components/NotFound";
 import Footer from "./components/Footer";
+import Themes from "./pages/Theme";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -95,6 +96,12 @@ const App = () => {
         </ListItem>
         {user ? (
           <>
+            <ListItem button component={Link} to="/categories">
+              <ListItemText primary="Categories" />
+            </ListItem>
+            <ListItem button component={Link} to="/themes">
+              <ListItemText primary="Themes" />
+            </ListItem>
             <ListItem>
               <ListItemText
                 primary={
@@ -281,6 +288,16 @@ const App = () => {
                     >
                       Categories
                     </Link>
+                    <Link
+                      to="/themes"
+                      style={{
+                        margin: "0 10px",
+                        color: darkMode ? "#fff" : "#000",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Themes
+                    </Link>
                     <Typography
                       variant="h6"
                       component="div"
@@ -367,7 +384,7 @@ const App = () => {
             {drawerList}
           </Drawer>
         </Box>
-        <Container sx={{ mb: 4, mt: 4, textAlign: "center" }}>
+        <Container sx={{ mb: 4, textAlign: "center" }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
@@ -376,7 +393,15 @@ const App = () => {
               path="/categories"
               element={
                 <ProtectedRoute>
-                  <CategoryTable />
+                  <Categories />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/themes"
+              element={
+                <ProtectedRoute>
+                  <Themes />
                 </ProtectedRoute>
               }
             />

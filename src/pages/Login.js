@@ -65,7 +65,18 @@ const Login = ({ setUser }) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      component="main"
+      maxWidth="xs"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        height: "100%",
+      }}
+    >
       <Typography component="h1" variant="h5">
         Login
       </Typography>
