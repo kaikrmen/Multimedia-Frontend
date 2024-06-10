@@ -44,6 +44,7 @@ const Contents = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [roles, setRoles] = useState([]);
   const [selectedType, setSelectedType] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [selectedTheme, setSelectedTheme] = useState("");
   const [imagePreview, setImagePreview] = useState("");
 

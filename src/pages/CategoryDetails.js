@@ -16,6 +16,7 @@ import categoryService from "../services/categoryService";
 const CategoryDetails = () => {
   const { id } = useParams();
   const [category, setCategory] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
 

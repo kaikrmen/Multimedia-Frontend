@@ -64,7 +64,15 @@ const Register = ({ setUser }) => {
       ) {
         return notifyService.showNotification("Missing fields", "error");
       }
-
+      
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(formData.password)) {
+        return notifyService.showNotification(
+          "Password must be at least 8 characters long and include at least one uppercase letter, one number, and one special character.",
+          "error"
+        );
+      }
       const data = await authService.register(
         formData.username,
         formData.email.toLowerCase(),
