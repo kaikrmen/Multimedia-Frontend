@@ -13,7 +13,7 @@ import {
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import allowsService from "../services/allowAllService";
 import { API_URL } from "../services/apiService";
-import { useNavigate } from "react-router-dom"; // Cambiar useHistory a useNavigate
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -23,7 +23,10 @@ const Home = () => {
   const [filteredContents, setFilteredContents] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredThemes, setFilteredThemes] = useState([]);
-  const navigate = useNavigate(); // Cambiar useHistory a useNavigate
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem('token'); // Leer el token del local storage
+  const isLoggedIn = !!token; // Verificar si el token existe
 
   useEffect(() => {
     allowsService.getCategories().then((response) => {
@@ -85,11 +88,11 @@ const Home = () => {
   };
 
   const handleCategoryClick = (id) => {
-    navigate(`/categories/${id}`); 
+    navigate(`/categories/${id}`);
   };
 
   const handleThemeClick = (id) => {
-    navigate(`/themes/${id}`); 
+    navigate(`/themes/${id}`);
   };
 
   const isYouTubeUrl = (url) => {
@@ -154,12 +157,14 @@ const Home = () => {
                   >
                     {new Date(category.updatedAt).toLocaleDateString()}
                   </Typography>
-                  <CardMedia
-                    component="img"
-                    style={{ width: "100%", height: "100%", padding: "1rem" }}
-                    image={`${API_URL}${category.coverImageUrl}`}
-                    alt={category.name}
-                  />
+                  {isLoggedIn && (
+                    <CardMedia
+                      component="img"
+                      style={{ width: "100%", height: "100%", padding: "1rem" }}
+                      image={`${API_URL}${category.coverImageUrl}`}
+                      alt={category.name}
+                    />
+                  )}
                 </CardContent>
               </Card>
             </Grid>
@@ -226,7 +231,7 @@ const Home = () => {
                   >
                     {new Date(content.updatedAt).toLocaleDateString()}
                   </Typography>
-                  {content.type === "image" && (
+                  {content.type === "image" && isLoggedIn && (
                     <CardMedia
                       component="img"
                       style={{ width: "100%", height: "100%", padding: "1rem" }}
@@ -234,7 +239,7 @@ const Home = () => {
                       alt={content.title}
                     />
                   )}
-                  {content.type === "video" && (
+                  {content.type === "video" && isLoggedIn && (
                     <Typography variant="body2" color="text.secondary">
                       {content.url ? (
                         ((embedUrl = isYouTubeUrl(content.url)
