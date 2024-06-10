@@ -19,7 +19,7 @@ import {
   Checkbox,
 } from "@mui/material";
 
-import { Edit, Delete, Visibility, Add, Close } from "@mui/icons-material";
+import { Edit, Delete, Visibility, Add, Close, SentimentDissatisfied } from "@mui/icons-material";
 import themeService from "../services/themeService";
 import authService from "../services/authService";
 import notifyService from "../services/notifyService";
@@ -153,7 +153,10 @@ const Themes = () => {
         return notifyService.showNotification(response.data.message, "error");
       }
     } catch (error) {
-      return notifyService.showNotification("Failed to delete theme", "error");
+      return notifyService.showNotification(
+        "Category found in content, you can not delete it",
+        "error"
+      );
     }
   };
 
@@ -196,67 +199,84 @@ const Themes = () => {
           Add Theme
         </Button>
       ) : null}
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Allows Images</TableCell>
-              <TableCell>Allows Videos</TableCell>
-              <TableCell>Allows Texts</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredThemes
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((theme) => (
-                <TableRow key={theme._id}>
-                  <TableCell>{theme.name}</TableCell>
-                  <TableCell>
-                    <Checkbox disabled checked={theme.permissions.images} />
-                  </TableCell>
-                  <TableCell>
-                    <Checkbox disabled checked={theme.permissions.videos} />
-                  </TableCell>
-                  <TableCell>
-                    <Checkbox disabled checked={theme.permissions.texts} />
-                  </TableCell>
-                  <TableCell>
-                    <IconButton onClick={() => handleOpenModal("view", theme)}>
-                      <Visibility />
-                    </IconButton>
-                    {(hasRole("admin") || hasRole("creator")) && (
-                      <>
-                        <IconButton
-                          onClick={() => handleOpenModal("edit", theme)}
-                        >
-                          <Edit />
-                        </IconButton>
-                      </>
-                    )}
-                    {hasRole("admin") && (
-                      <IconButton
-                        onClick={() => handleOpenModal("delete", theme)}
-                      >
-                        <Delete />
-                      </IconButton>
-                    )}
-                  </TableCell>
+      {filteredThemes.length === 0 ? (
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          mt={5}
+        >
+          <SentimentDissatisfied fontSize="large" color="disabled" />
+          <Typography variant="h6" color="textSecondary" mt={2}>
+            No data available
+          </Typography>
+        </Box>
+      ) : (
+        <>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Allows Images</TableCell>
+                  <TableCell>Allows Videos</TableCell>
+                  <TableCell>Allows Texts</TableCell>
+                  <TableCell>Actions</TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 50, 100]}
-        component="div"
-        count={filteredThemes.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+              </TableHead>
+              <TableBody>
+                {filteredThemes
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((theme) => (
+                    <TableRow key={theme._id}>
+                      <TableCell>{theme.name}</TableCell>
+                      <TableCell>
+                        <Checkbox disabled checked={theme.permissions.images} />
+                      </TableCell>
+                      <TableCell>
+                        <Checkbox disabled checked={theme.permissions.videos} />
+                      </TableCell>
+                      <TableCell>
+                        <Checkbox disabled checked={theme.permissions.texts} />
+                      </TableCell>
+                      <TableCell>
+                        <IconButton onClick={() => handleOpenModal("view", theme)}>
+                          <Visibility />
+                        </IconButton>
+                        {(hasRole("admin") || hasRole("creator")) && (
+                          <>
+                            <IconButton
+                              onClick={() => handleOpenModal("edit", theme)}
+                            >
+                              <Edit />
+                            </IconButton>
+                          </>
+                        )}
+                        {hasRole("admin") && (
+                          <IconButton
+                            onClick={() => handleOpenModal("delete", theme)}
+                          >
+                            <Delete />
+                          </IconButton>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 50, 100]}
+            component="div"
+            count={filteredThemes.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </>
+      )}
       <Modal open={openModal} onClose={handleCloseModal}>
         <Box sx={{ ...modalStyle }}>
           <Box

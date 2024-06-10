@@ -1,70 +1,281 @@
-# Getting Started with Create React App
+# Management Multimedia Content Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Structure
 
-## Available Scripts
+```plaintext
+management-multimedia-content-frontend/
+├── node_modules/
+├── public/
+│   ├── index.html
+│   ├── favicon.ico
+│   └── manifest.json
+├── src/
+│   ├── components/
+│   │   ├── Auth/
+│   │   │   ├── Login.js
+│   │   │   ├── Register.js
+│   │   ├── Content/
+│   │   │   ├── ContentList.js
+│   │   │   ├── ContentDetail.js
+│   │   ├── Navbar/
+│   │   │   ├── Navbar.js
+│   ├── guard/
+│   │   ├── AuthGuard.js
+│   ├── pages/
+│   │   ├── Home.js
+│   │   ├── Categories.js
+│   │   ├── Themes.js
+│   │   ├── Content.js
+│   ├── services/
+│   │   ├── AuthService.js
+│   │   ├── ContentService.js
+│   │   ├── CategoryService.js
+│   │   ├── ThemeService.js
+│   ├── theme/
+│   │   ├── dark.js
+│   │   ├── light.js
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   ├── setupTests.js
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+```
 
-In the project directory, you can run:
+## Installation and Setup
 
-### `npm start`
+1. **Clone the repository**:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+   ```bash
+   git clone https://github.com/kaikrmen/Multimedia-Frontend.git
+   cd multimedia-content-management-frontend
+   ```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. **Install dependencies**:
 
-### `npm test`
+   ```bash
+   npm install
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. **Create a `.env` file and add the necessary environment variables**:
 
-### `npm run build`
+   ```makefile
+   REACT_APP_API_URL=http://localhost:5000/api/v1
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. **Run the application**:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```bash
+   npm start
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. **Build the application for production**:
 
-### `npm run eject`
+   ```bash
+   npm run build
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+6. **Run tests**:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   npm test
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Project Overview
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Components
 
-## Learn More
+- **Auth**: Handles user authentication (Login and Register).
+- **Content**: Displays content list and content details.
+- **Navbar**: Provides navigation across different pages.
+- **Guard**: Contains authentication guard for protected routes.
+- **Services**: Contains API services for authentication, content, categories, and themes.
+- **Theme**: Contains dark and light theme configurations.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Pages
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Home**: Displays the homepage.
+- **Categories**: Lists all categories.
+- **Themes**: Lists all themes.
+- **Content**: Lists all content and content details.
 
-### Code Splitting
+## Key Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Authentication
 
-### Analyzing the Bundle Size
+- **Login and Register**: Allows users to log in and register. Validates that usernames and emails are unique.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### User Roles
 
-### Making a Progressive Web App
+- **Admin**: Can perform all CRUD operations on users, categories, themes, and contents.
+- **Creator**: Can create, read, and update contents.
+- **Reader**: Can read contents.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Content Management
 
-### Advanced Configuration
+- **CRUD Operations**: Admin can create, read, update, and delete categories, themes, and contents.
+- **Role-based Access**: Content creation and management are restricted based on user roles.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Theming
 
-### Deployment
+- **Dark and Light Mode**: Users can switch between dark and light modes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Content Display
 
-### `npm run build` fails to minify
+- **Library View**: Displays contents categorized by type and theme. All users can view the content list, but only registered users can access detailed content.
+- **Search**: Allows users to search for content by name or theme.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Validation
+
+- **Unique Usernames and Emails**: Ensured during user registration.
+- **Content Type Validation**: Ensures that the correct type of content is uploaded according to its category.
+- **Access Control**: Validates user permissions for accessing and managing content.
+
+## Detailed File Descriptions
+
+### `src/components/Auth/Login.js`
+
+Handles user login.
+
+### `src/components/Auth/Register.js`
+
+Handles user registration.
+
+### `src/components/Content/ContentList.js`
+
+Displays a list of contents.
+
+### `src/components/Content/ContentDetail.js`
+
+Displays detailed view of a specific content.
+
+### `src/components/Navbar/Navbar.js`
+
+Provides navigation links to different pages.
+
+### `src/guard/AuthGuard.js`
+
+Ensures that only authenticated users can access protected routes.
+
+### `src/pages/Home.js`
+
+Displays the homepage with general content information.
+
+### `src/pages/Categories.js`
+
+Lists all content categories.
+
+### `src/pages/Themes.js`
+
+Lists all content themes.
+
+### `src/pages/Content.js`
+
+Displays all contents and their details.
+
+### `src/services/AuthService.js`
+
+Handles API requests related to user authentication.
+
+### `src/services/ContentService.js`
+
+Handles API requests related to content management.
+
+### `src/services/CategoryService.js`
+
+Handles API requests related to category management.
+
+### `src/services/ThemeService.js`
+
+Handles API requests related to theme management.
+
+### `src/theme/dark.js`
+
+Defines the dark theme configuration.
+
+### `src/theme/light.js`
+
+Defines the light theme configuration.
+
+### `src/App.js`
+
+Main application component that sets up routing and theming.
+
+### `src/index.js`
+
+Entry point for the React application.
+
+### `public/index.html`
+
+Main HTML file.
+
+## Running the Project
+
+1. **Start the backend server** (assuming the backend is set up according to the previously provided documentation).
+
+2. **Start the frontend development server**:
+
+   ```bash
+   npm start
+   ```
+
+3. **Open the application in your browser**:
+
+   Navigate to `http://localhost:3000` to view the application.
+
+4. **Switch between dark and light modes** using the toggle switch in the navbar.
+
+## Additional Information
+
+### Dependencies
+
+- **@mui/material**: For UI components.
+- **@mui/icons-material**: For icons.
+- **axios**: For making API requests.
+- **jwt-decode**: For decoding JWT tokens.
+- **react-router-dom**: For routing.
+- **react-toastify**: For notifications.
+- **@testing-library/react**: For testing.
+
+### Scripts
+
+- **start**: Runs the application in development mode.
+- **build**: Builds the application for production.
+- **test**: Runs tests.
+- **eject**: Ejects the application from `create-react-app`.
+
+## Example Usage
+
+### Registering a User
+
+1. Navigate to the **Register** page.
+2. Fill in the **Username**, **Email Address**, **Password**, and **Role**.
+3. Click **Register**.
+
+### Logging in
+
+1. Navigate to the **Login** page.
+2. Enter your **Email Address** and **Password**.
+3. Click **Login**.
+
+### Managing Content
+
+1. Log in as an **Admin** or **Creator**.
+2. Navigate to the **Content** page.
+3. Create, read, update, or delete content based on your role permissions.
+
+## Images
+
+<img src="assets/Register.png">
+
+<img src="assets/Home.png">
+
+<img src="assets/Content.png">
+
+<img src="assets/One.png">

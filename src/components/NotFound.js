@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const NotFound = () => {
   return (
-    <Box
+    <Box sx={{mt: 4}}
       display="flex"
       flexDirection="column"
       alignItems="center"

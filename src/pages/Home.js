@@ -13,6 +13,7 @@ import {
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import allowsService from "../services/allowAllService";
 import { API_URL } from "../services/apiService";
+import { useNavigate } from "react-router-dom"; // Cambiar useHistory a useNavigate
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -22,6 +23,7 @@ const Home = () => {
   const [filteredContents, setFilteredContents] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredThemes, setFilteredThemes] = useState([]);
+  const navigate = useNavigate(); // Cambiar useHistory a useNavigate
 
   useEffect(() => {
     allowsService.getCategories().then((response) => {
@@ -82,6 +84,14 @@ const Home = () => {
     }
   };
 
+  const handleCategoryClick = (id) => {
+    navigate(`/categories/${id}`); 
+  };
+
+  const handleThemeClick = (id) => {
+    navigate(`/themes/${id}`); 
+  };
+
   const isYouTubeUrl = (url) => {
     const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
     return regex.test(url);
@@ -98,13 +108,7 @@ const Home = () => {
   let embedUrl;
 
   return (
-    <Container
-      sx={{ mt: 4 }}
-      style={{
-        minHeight: "100vh",
-        height: "100%"
-      }}
-    >
+    <Container sx={{ mt: 4 }} style={{ minHeight: "100vh", height: "100%" }}>
       <Typography variant="h2" gutterBottom>
         Multimedia Library
       </Typography>
@@ -138,7 +142,7 @@ const Home = () => {
         <Grid container spacing={4}>
           {filteredCategories.map((category) => (
             <Grid item key={category._id} xs={12} sm={6} md={4}>
-              <Card>
+              <Card onClick={() => handleCategoryClick(category._id)}>
                 <CardContent sx={{ position: "relative" }}>
                   <Typography variant="h5" component="div">
                     {category.name}
@@ -177,7 +181,7 @@ const Home = () => {
         <Grid container spacing={4}>
           {filteredThemes.map((theme) => (
             <Grid item key={theme._id} xs={12} sm={6} md={4}>
-              <Card>
+              <Card onClick={() => handleThemeClick(theme._id)}>
                 <CardContent sx={{ position: "relative" }}>
                   <Typography variant="h5" component="div">
                     {theme.name}
@@ -218,7 +222,7 @@ const Home = () => {
                   <Typography
                     variant="body2"
                     color="textSecondary"
-                    sx={{ position: "absolute", top: 8, right: 16 }}
+                    sx={{ position: "absolute", top: 5, right: 16 }}
                   >
                     {new Date(content.updatedAt).toLocaleDateString()}
                   </Typography>
@@ -261,7 +265,11 @@ const Home = () => {
                     </Typography>
                   )}
                   {content.type === "text" && (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                      style={{ padding: "1rem" }}
+                      variant="body2"
+                      color="text.secondary"
+                    >
                       {content.text}
                     </Typography>
                   )}

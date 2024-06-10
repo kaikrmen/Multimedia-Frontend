@@ -35,6 +35,9 @@ import ProtectedRoute from "./guard/ProtectedRoute";
 import NotFound from "./components/NotFound";
 import Footer from "./components/Footer";
 import Themes from "./pages/Theme";
+import Content from "./pages/Content";
+import CategoryDetails from "./pages/CategoryDetails";
+import ThemeDetails from "./pages/ThemeDetails";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -101,6 +104,9 @@ const App = () => {
             </ListItem>
             <ListItem button component={Link} to="/themes">
               <ListItemText primary="Themes" />
+            </ListItem>
+            <ListItem button component={Link} to="/content">
+              <ListItemText primary="Content" />
             </ListItem>
             <ListItem>
               <ListItemText
@@ -298,6 +304,16 @@ const App = () => {
                     >
                       Themes
                     </Link>
+                    <Link
+                      to="/content"
+                      style={{
+                        margin: "0 10px",
+                        color: darkMode ? "#fff" : "#000",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Content
+                    </Link>
                     <Typography
                       variant="h6"
                       component="div"
@@ -398,10 +414,34 @@ const App = () => {
               }
             />
             <Route
+              path="/categories/:id"
+              element={
+                <ProtectedRoute>
+                  <CategoryDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/themes"
               element={
                 <ProtectedRoute>
                   <Themes />
+                </ProtectedRoute>
+              }
+            />
+             <Route
+              path="/themes/:id"
+              element={
+                <ProtectedRoute>
+                  <ThemeDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/content"
+              element={
+                <ProtectedRoute>
+                  <Content />
                 </ProtectedRoute>
               }
             />

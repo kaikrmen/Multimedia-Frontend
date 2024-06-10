@@ -20,7 +20,7 @@ import {
   CardMedia,
   Autocomplete,
 } from "@mui/material";
-import { Edit, Delete, Visibility, Add, Close } from "@mui/icons-material";
+import { Edit, Delete, Visibility, Add, Close, SentimentDissatisfied } from "@mui/icons-material";
 import categoryService from "../services/categoryService";
 import allowsService from "../services/allowAllService";
 import notifyService from "../services/notifyService";
@@ -166,7 +166,7 @@ const Categories = () => {
       }
     } catch (error) {
       return notifyService.showNotification(
-        "Failed to delete category",
+        "Category found in content, you can not delete it",
         "error"
       );
     }
@@ -216,69 +216,86 @@ const Categories = () => {
           <Add /> Add Category
         </Button>
       ) : null}
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Allows Images</TableCell>
-              <TableCell>Allows Videos</TableCell>
-              <TableCell>Allows Texts</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredCategories
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((category) => (
-                <TableRow key={category._id}>
-                  <TableCell>{category.name}</TableCell>
-                  <TableCell>
-                    <Checkbox disabled checked={category.allowsImages} />
-                  </TableCell>
-                  <TableCell>
-                    <Checkbox disabled checked={category.allowsVideos} />
-                  </TableCell>
-                  <TableCell>
-                    <Checkbox disabled checked={category.allowsTexts} />
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      onClick={() => handleOpenModal("view", category)}
-                    >
-                      <Visibility />
-                    </IconButton>
-                    {(hasRole("admin") || hasRole("creator")) && (
-                      <>
-                        <IconButton
-                          onClick={() => handleOpenModal("edit", category)}
-                        >
-                          <Edit />
-                        </IconButton>
-                      </>
-                    )}
-                    {hasRole("admin") && (
-                      <IconButton
-                        onClick={() => handleOpenModal("delete", category)}
-                      >
-                        <Delete />
-                      </IconButton>
-                    )}
-                  </TableCell>
+      {filteredCategories.length === 0 ? (
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          mt={5}
+        >
+          <SentimentDissatisfied fontSize="large" color="disabled" />
+          <Typography variant="h6" color="textSecondary" mt={2}>
+            No data available
+          </Typography>
+        </Box>
+      ) : (
+        <>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Allows Images</TableCell>
+                  <TableCell>Allows Videos</TableCell>
+                  <TableCell>Allows Texts</TableCell>
+                  <TableCell>Actions</TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 50, 100]}
-        component="div"
-        count={filteredCategories.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+              </TableHead>
+              <TableBody>
+                {filteredCategories
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((category) => (
+                    <TableRow key={category._id}>
+                      <TableCell>{category.name}</TableCell>
+                      <TableCell>
+                        <Checkbox disabled checked={category.allowsImages} />
+                      </TableCell>
+                      <TableCell>
+                        <Checkbox disabled checked={category.allowsVideos} />
+                      </TableCell>
+                      <TableCell>
+                        <Checkbox disabled checked={category.allowsTexts} />
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={() => handleOpenModal("view", category)}
+                        >
+                          <Visibility />
+                        </IconButton>
+                        {(hasRole("admin") || hasRole("creator")) && (
+                          <>
+                            <IconButton
+                              onClick={() => handleOpenModal("edit", category)}
+                            >
+                              <Edit />
+                            </IconButton>
+                          </>
+                        )}
+                        {hasRole("admin") && (
+                          <IconButton
+                            onClick={() => handleOpenModal("delete", category)}
+                          >
+                            <Delete />
+                          </IconButton>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 50, 100]}
+            component="div"
+            count={filteredCategories.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </>
+      )}
       <Modal open={openModal} onClose={handleCloseModal}>
         <Box sx={{ ...modalStyle }}>
           <Box
