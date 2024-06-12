@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_URL = 'https://multimedia-backend-xuyp.onrender.com/api/v1';
+export const API_URL = 'http://localhost:5000/api/v1';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

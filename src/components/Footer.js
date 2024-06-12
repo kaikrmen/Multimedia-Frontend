@@ -21,7 +21,7 @@ const Footer = () => {
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
         <Typography variant="body1">
-          © {new Date().getFullYear()} Your Company. All rights reserved.
+          © {new Date().getFullYear()} kaikrmen. All rights reserved.
         </Typography>
         <IconButton
           component={Link}
